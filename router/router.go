@@ -2,6 +2,7 @@ package router
 
 import (
 	"api-fiber-gorm/handler"
+	"api-fiber-gorm/middleware"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
@@ -19,4 +20,5 @@ func SetupRoutes(app *fiber.App) {
 	// User
 	user := api.Group("/user")
 	user.Get("/:id", handler.GetUser)
+	user.Put("/:id", middleware.Protected(), handler.UpdateUser)
 }
