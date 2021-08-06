@@ -52,6 +52,7 @@ func Login(c *fiber.Ctx) error {
 		Username string `json:"username"`
 		Email    string `json:"email"`
 		Password string `json:"password"`
+		Role     string `json:"role"`
 	}
 	var input LoginInput
 	var ud UserData
@@ -82,6 +83,7 @@ func Login(c *fiber.Ctx) error {
 			Username: user.Username,
 			Email:    user.Email,
 			Password: user.Password,
+			Role:     user.Role,
 		}
 	} else {
 		ud = UserData{
@@ -89,6 +91,7 @@ func Login(c *fiber.Ctx) error {
 			Username: email.Username,
 			Email:    email.Email,
 			Password: email.Password,
+			Role:     email.Role,
 		}
 	}
 
@@ -101,6 +104,7 @@ func Login(c *fiber.Ctx) error {
 	claims := token.Claims.(jwt.MapClaims)
 	claims["username"] = ud.Username
 	claims["user_id"] = ud.ID
+	claims["role"] = ud.Role
 	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 
 	t, err := token.SignedString([]byte(config.Config("SECRET")))
