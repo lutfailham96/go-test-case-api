@@ -18,6 +18,6 @@ func ConnectDB() {
 		panic("failed to connect database")
 	}
 	fmt.Println("Connection Opened to Database")
-	DB.AutoMigrate(&model.Product{}, &model.User{})
+	DB.AutoMigrate(&model.User{}, &model.Article{})
 	fmt.Println("Database Migrated")
 }
