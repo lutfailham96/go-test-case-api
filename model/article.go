@@ -7,5 +7,6 @@ type Article struct {
 	Title            string    `gorm:"not null" json:"title"`
 	Content          string    `gorm:"not null" json:"content"`
 	FeaturedImageUrl string    `gorm:"not null" json:"featured_image_url"`
+	UserID           int       `json:"user_id"`
 	Comments         []Comment `gorm:"-" json:"comments"`
 }
