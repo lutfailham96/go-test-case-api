@@ -17,9 +17,16 @@ func CreateArticle(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "No privilege to create article", "data": nil})
 	}
 	if err := c.BodyParser(article); err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't create article", "data": err})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Couldn't create article", "data": err})
 	}
-	article.UserID = int(userId.(float64))
+	article.UserID = uint(userId.(float64))
 	db.Create(&article)
-	return c.JSON(fiber.Map{"status": "success", "message": "Created product", "data": article})
+	return c.JSON(fiber.Map{"status": "success", "message": "Created article", "data": article})
+}
+
+func GetAllArticles(c *fiber.Ctx) error  {
+	db := database.DB
+	var articles []model.Article
+	db.Preload("Comments").Find(&articles)
+	return c.JSON(fiber.Map{"status": "success", "message": "All articles", "data": articles})
 }
