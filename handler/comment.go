@@ -1,18 +1,30 @@
 package handler
 
 import (
+	"strconv"
 	"test-case-api/database"
 	"test-case-api/model"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 )
 
 func CreateComment(c *fiber.Ctx) error {
-	db := database.DB
-	comment := new(model.Comment)
-	if err := c.BodyParser(comment); err != nil {
+	type CommentInput struct {
+		CommentText string `json:"comment_text"`
+	}
+	var cii CommentInput
+	if err := c.BodyParser(&cii); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Couldn't create new comment", "data": err})
 	}
+
+	db := database.DB
+	id, _ := strconv.ParseUint(c.Params("id"), 10, 32)
+	userId := uint(c.Locals("user").(*jwt.Token).Claims.(jwt.MapClaims)["user_id"].(float64))
+	comment := new(model.Comment)
+	comment.CommentText = cii.CommentText
+	comment.ArticleID = uint(id)
+	comment.UserID = userId
 	db.Create(&comment)
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"status": "success", "message": "Created comment", "data": comment})
 }
