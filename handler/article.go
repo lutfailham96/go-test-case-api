@@ -65,3 +65,24 @@ func UpdateArticle(c *fiber.Ctx) error {
 	db.Save(&article)
 	return c.JSON(fiber.Map{"status": "success", "message": "Article successfully updated", "data": article})
 }
+
+func DeleteArticle(c *fiber.Ctx) error {
+	id := c.Params("id")
+	db := database.DB
+
+	var article model.Article
+	db.Find(&article, id)
+
+	if article.ID == 0 {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No article found with ID", "data": nil})
+	}
+	db.Delete(&article)
+
+	/*
+	if err := db.Delete(&article); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "success", "message": "Cannot remove article's comment", "data": err})
+	}
+	 */
+
+	return c.JSON(fiber.Map{"status": "success", "message": "Article deleted", "data": nil})
+}
