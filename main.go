@@ -12,6 +12,7 @@ import (
 func main() {
 	app := fiber.New()
 	app.Use(cors.New())
+	app.Static("/public", "./public")
 	database.ConnectDB()
 	router.SetupRoutes(app)
 	log.Fatal(app.Listen(":3000"))
