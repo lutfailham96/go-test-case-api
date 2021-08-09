@@ -132,3 +132,34 @@ func GetUser(c *fiber.Ctx) error {
 	}
 	return c.JSON(fiber.Map{"status": "success", "message": "User found", "data": user})
 }
+
+func ChangePassword(c *fiber.Ctx) error {
+	db := database.DB
+
+	type changePassword struct {
+		Password    string `json:"password"`
+		NewPassword string `json:"new_password"`
+	}
+
+	var cui changePassword
+	if err := c.BodyParser(&cui); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
+	}
+
+	var user model.User
+	userId := c.Locals("user").(*jwt.Token).Claims.(jwt.MapClaims)["user_id"]
+	db.Find(&user, userId)
+
+	if CheckPasswordHash(cui.Password, user.Password) {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Password incorrect", "data": nil})
+	}
+
+	hash, err := hashPassword(cui.Password)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't hash password", "data": err})
+	}
+
+	user.Password = hash
+	db.Save(&user)
+	return c.JSON(fiber.Map{"status": "success", "message": "Password changed", "data": nil})
+}
