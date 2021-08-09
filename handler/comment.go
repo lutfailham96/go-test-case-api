@@ -29,6 +29,30 @@ func CreateComment(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"status": "success", "message": "Created comment", "data": comment})
 }
 
+func UpdateComment(c *fiber.Ctx) error {
+	type CommentInput struct {
+		CommentText string `json:"comment_text"`
+	}
+	var cii CommentInput
+	if err := c.BodyParser(&cii); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Couldn't create new comment", "data": err})
+	}
+
+	id := c.Params("id")
+	db := database.DB
+
+	var comment model.Comment
+	db.Find(&comment, id)
+
+	if comment.ID == 0 {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"status": "error", "message": "No comment found with ID", "data": nil})
+	}
+
+	comment.CommentText = cii.CommentText
+	db.Save(&comment)
+	return c.JSON(fiber.Map{"status": "success", "message": "Updated comment", "data": comment})
+}
+
 func DeleteComment(c *fiber.Ctx) error {
 	id := c.Params("id")
 	db := database.DB

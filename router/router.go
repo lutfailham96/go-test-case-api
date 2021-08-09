@@ -38,5 +38,6 @@ func SetupRoutes(app *fiber.App) {
 	// Comment
 	comment := api.Group("/comment")
 	article.Post("/:id/comment", middleware.Protected(), handler.CreateComment)
+	comment.Put("/:id", middleware.Protected(), handler.UpdateComment)
 	comment.Delete("/:id", middleware.Protected(), handler.DeleteComment)
 }
