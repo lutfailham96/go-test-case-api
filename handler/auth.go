@@ -1,14 +1,16 @@
 package handler
 
 import (
-	"api-fiber-gorm/config"
-	"api-fiber-gorm/database"
-	"api-fiber-gorm/model"
+	"time"
+	"test-case-api/config"
+	"test-case-api/database"
+	"test-case-api/model"
+
+	"golang.org/x/crypto/bcrypt"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/jinzhu/gorm"
-	"golang.org/x/crypto/bcrypt"
-	"time"
 )
 
 // CheckPasswordHash compare password with hash

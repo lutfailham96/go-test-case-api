@@ -1,11 +1,12 @@
 package main
 
 import (
-	"api-fiber-gorm/database"
-	"api-fiber-gorm/router"
+	"log"
+	"test-case-api/database"
+	"test-case-api/router"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"log"
 )
 
 func main() {

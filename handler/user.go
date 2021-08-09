@@ -1,12 +1,14 @@
 package handler
 
 import (
-	"api-fiber-gorm/database"
-	"api-fiber-gorm/model"
+	"strconv"
+	"test-case-api/database"
+	"test-case-api/model"
+
+	"golang.org/x/crypto/bcrypt"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
-	"golang.org/x/crypto/bcrypt"
-	"strconv"
 )
 
 func hashPassword(password string) (string, error) {

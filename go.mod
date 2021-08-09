@@ -1,4 +1,4 @@
-module api-fiber-gorm
+module test-case-api
 
 go 1.15
 

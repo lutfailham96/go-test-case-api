@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"api-fiber-gorm/database"
-	"api-fiber-gorm/model"
+	"test-case-api/database"
+	"test-case-api/model"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 )

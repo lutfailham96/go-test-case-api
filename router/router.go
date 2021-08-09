@@ -1,8 +1,9 @@
 package router
 
 import (
-	"api-fiber-gorm/handler"
-	"api-fiber-gorm/middleware"
+	"test-case-api/handler"
+	"test-case-api/middleware"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )

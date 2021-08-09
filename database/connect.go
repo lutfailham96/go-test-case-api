@@ -1,12 +1,13 @@
 package database
 
 import (
-	"api-fiber-gorm/config"
-	"api-fiber-gorm/model"
 	"fmt"
+	"strconv"
+	"test-case-api/config"
+	"test-case-api/model"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"strconv"
 )
 
 func ConnectDB() {
