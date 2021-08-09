@@ -41,27 +41,27 @@ func GetArticle(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"status": "success", "message": "Article found", "data": article})
 }
 
-//func UpdateArticle(c *fiber.Ctx) error {
-//	type UpdateArticleInput struct {
-//		Title            string `json:"title"`
-//		Content          string `json:"content"`
-//		FeaturedImageUrl string `json:"featured_image_url"`
-//	}
-//	var uai UpdateArticleInput
-//	if err := c.BodyParser(&uai); err != nil {
-//		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
-//	}
-//
-//	db := database.DB
-//	var article model.Article
-//
-//	id := c.Params("id")
-//	db.First(&article, id)
-//
-//	article.Title = uai.Title
-//	article.Content = uai.Content
-//	article.FeaturedImageUrl = uai.FeaturedImageUrl
-//
-//	db.Save(&article)
-//	return c.JSON(fiber.Map{"status": "success", "message": "Article successfully updated", "data": article})
-//}
+func UpdateArticle(c *fiber.Ctx) error {
+	type UpdateArticleInput struct {
+		Title            string `json:"title"`
+		Content          string `json:"content"`
+		FeaturedImageUrl string `json:"featured_image_url"`
+	}
+	var uai UpdateArticleInput
+	if err := c.BodyParser(&uai); err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
+	}
+
+	db := database.DB
+	var article model.Article
+
+	id := c.Params("id")
+	db.First(&article, id)
+
+	article.Title = uai.Title
+	article.Content = uai.Content
+	article.FeaturedImageUrl = uai.FeaturedImageUrl
+
+	db.Save(&article)
+	return c.JSON(fiber.Map{"status": "success", "message": "Article successfully updated", "data": article})
+}
