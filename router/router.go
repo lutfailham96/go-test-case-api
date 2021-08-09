@@ -24,6 +24,9 @@ func SetupRoutes(app *fiber.App) {
 	user.Put("/:id", middleware.Protected(), handler.UpdateUser)
 	api.Put("/change-password", middleware.Protected(), handler.ChangePassword)
 
+	// Image
+	api.Post("/img", handler.UploadFile)
+
 	// Article
 	article := api.Group("/article")
 	article.Get("/", middleware.Protected(), handler.GetAllArticles)
