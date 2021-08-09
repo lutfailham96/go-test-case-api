@@ -12,7 +12,7 @@ type Article struct {
 	Content          string         `gorm:"not null" json:"content"`
 	FeaturedImageUrl string         `gorm:"not null" json:"featured_image_url"`
 	UserID           uint           `gorm:"not null" json:"user_id"`
-	Comments         []Comment      `json:"comments"`
+	Comments         []Comment      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"comments"`
 	CreatedAt        time.Time      `json:"created_at"`
 	UpdatedAt        time.Time      `json:"updated_at"`
 	DeletedAt        gorm.DeletedAt `gorm:"index" json:"deleted_at"`
