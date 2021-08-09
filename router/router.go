@@ -25,5 +25,10 @@ func SetupRoutes(app *fiber.App) {
 
 	// Article
 	article := api.Group("/article")
+	article.Get("/", middleware.Protected(), handler.GetAllArticles)
 	article.Post("/", middleware.Protected(), handler.CreateArticle)
+
+	// Comment
+	comment := api.Group("/comment")
+	comment.Post("/", middleware.Protected(), handler.CreateComment)
 }
