@@ -15,8 +15,8 @@ type User struct {
 	Address   string         `gorm:"not null" json:"address"`
 	AvatarUrl string         `json:"avatar_url"`
 	Role      string         `gorm:"not null" json:"role"`
-	Articles  []Article      `json:"articles"`
-	Comments  []Comment      `json:"comments"`
+	Articles  []Article      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"articles"`
+	Comments  []Comment      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"comments"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at"`
