@@ -1,5 +1,8 @@
 # Test Case API
 
+## API Authorization
+- Header: Bearer your_token_here
+
 ## Endpoints
 
 - GET /api - _API_
@@ -14,6 +17,7 @@
       - address [string]
       - role [string [author, visitor]]
       - avatar_url [string]
+    - All of these route are protected using Bearer token 
     - PUT /user/:id - _Update user_
       - name [string]
       - address [string]
