@@ -29,12 +29,16 @@
       - new_password [string]
     - POST /img - _Upload image [avatar, featured_image]_
       - file [file]
+    - POST /article - _Create new article_
+      - title [string]
+      - content [string]
+      - featured_image_url [string]
     - GET /article - _Get all article_
     - GET /article/{:id} - _Get article by id_
     - PUT /article/{:id} - _Update article by id_
       - title [string]
       - content [string]
-      - featured_image_url [string]
+      - featured_image_url [string] 
     - DELETE /article/{:id} - _Delete article by id_
     - POST /article/{:id}/comment - _Create new comment on article_
       - comment_text [string]
