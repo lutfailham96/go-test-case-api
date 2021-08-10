@@ -18,6 +18,7 @@
       - role [string [author, visitor]]
       - avatar_url [string]
     - All of these route are protected using Bearer token 
+    - GET /user/:id - _Get user profile_
     - PUT /user/:id - _Update user_
       - name [string]
       - address [string]
