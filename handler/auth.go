@@ -22,7 +22,7 @@ func CheckPasswordHash(password, hash string) bool {
 func getUserByEmail(e string) (*model.User, error) {
 	db := database.DB
 	var user model.User
-	if err := db.Where(&model.User{Email: e}).Find(&user).Error; err != nil {
+	if err := db.Where("email = ?", e).Find(&user).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
 			return nil, nil
 		}
@@ -34,7 +34,7 @@ func getUserByEmail(e string) (*model.User, error) {
 func getUserByUsername(u string) (*model.User, error) {
 	db := database.DB
 	var user model.User
-	if err := db.Where(&model.User{Username: u}).Find(&user).Error; err != nil {
+	if err := db.Where("username = ?", u).Find(&user).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
 			return nil, nil
 		}
@@ -53,7 +53,7 @@ func Login(c *fiber.Ctx) error {
 		ID       uint   `json:"id"`
 		Username string `json:"username"`
 		Email    string `json:"email"`
-		Password string `json:"password"`
+		Password string `json:"-"`
 		Role     string `json:"role"`
 	}
 	var input LoginInput
@@ -104,6 +104,7 @@ func Login(c *fiber.Ctx) error {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
+	claims["email"] = ud.Email
 	claims["username"] = ud.Username
 	claims["user_id"] = ud.ID
 	claims["role"] = ud.Role
@@ -114,5 +115,5 @@ func Login(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "access_token": t})
+	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "access_token": t, "current_user": ud})
 }
