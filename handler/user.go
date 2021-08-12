@@ -163,3 +163,14 @@ func ChangePassword(c *fiber.Ctx) error {
 	db.Save(&user)
 	return c.JSON(fiber.Map{"status": "success", "message": "Password changed", "data": nil})
 }
+
+func GetCurrentUser(c *fiber.Ctx) error {
+	userId := uint(c.Locals("user").(*jwt.Token).Claims.(jwt.MapClaims)["user_id"].(float64))
+	db := database.DB
+	var user model.User
+	db.Find(&user, userId)
+	if user.ID == 0 {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No user found with ID", "data": nil})
+	}
+	return c.JSON(fiber.Map{"status": "success", "message": "Current user", "current_user": user})
+}
