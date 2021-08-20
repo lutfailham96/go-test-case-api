@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"time"
 	"test-case-api/config"
 	"test-case-api/database"
 	"test-case-api/model"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 
